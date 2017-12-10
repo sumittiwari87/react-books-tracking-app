@@ -5,7 +5,7 @@ Below you will find some information on how to perform common tasks.<br>
 ## Table of Contents
 
 - [What is a Book Trackin App](#about-app)
-  -[App Functionality](#app-functionality)
+  - [App Functionality](#app-functionality)
 - [Available Scripts](#available-scripts)
   - [npm start](#npm-start)
   - [npm test](#npm-test)

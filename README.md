@@ -19,7 +19,7 @@ This is my UDACity project which I am working to submit the concept of the funda
 
 In the project, I'll create a bookshelf app that allows me to select and categorize books I have read, am currently reading, or want to read. The project emphasizes using React to build the application and provides an API server and client library that I will use to persist information as I interact with the application.
 
-### App Functionality
+### `App Functionality`
 
 In this application, the main page displays a list of "shelves" (i.e. categories), each of which contains a number of books. The three shelves are:
 

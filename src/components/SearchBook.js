@@ -15,16 +15,12 @@ class SearchBook extends React.Component{
         query:''
     }
 
-    updateQuery = (query)=>{
-        this.setState({query:query.trim()})
-    }
-
     render(){
 
         const {books, onSearchBook} = this.props
         const {query} = this.state
 
-        let showingBooks
+        let showingBooks = []
 
         if(query){
             const match = new RegExp(escapeRedExp(this.state.query),'i')
@@ -32,7 +28,10 @@ class SearchBook extends React.Component{
         }else{
             showingBooks =  books
         }
-        showingBooks.sort(sortBy('title'))
+
+        if(showingBooks.length){
+            showingBooks.sort(sortBy('title'))
+        }
 
         return(
             <div className="search-books">
@@ -47,25 +46,17 @@ class SearchBook extends React.Component{
                       However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                       you don't find a specific author or title. Every search is limited by search terms.
                     */}
-                        <input type="text" placeholder="Search by title or author"
-                               value={this.state.query}
-                               //onChange={(event)=> this.props.onSearchBook(event.target.value)}
+                        <input placeholder="Search by title or author"
+                               type="text"
+                               onChange={(event)=> onSearchBook(event.target.value.trim())}
                         />
 
                     </div>
                 </div>
-                <div className="search-books-results">
-                    <ol className="books-grid">
-                        {showingBooks.map((book) => (
-                           <li key={book.id}>
-                               <Book
-                                    book ={book}
-                               />
-                           </li>
-                        ))}
-
-                    </ol>
-                </div>
+                <Book
+                    books={showingBooks}
+                    shelf = 'Search Results'
+                />
             </div>
         )}
 }

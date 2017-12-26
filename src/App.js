@@ -4,26 +4,40 @@ import './App.css'
 import SearchBook from "./components/SearchBook"
 import * as BooksAPI from "./BooksAPI"
 import {Route} from 'react-router-dom'
+import ListBookShelf from "./components/ListBookShelf";
 
 
 class App extends Component {
 
     state = {
-        books :[]
+        myReading :[],
+        mySearch:[]
     }
 
     getAllBooks =()=>{
       BooksAPI.getAll().then((results)=>{
-            this.setState({books:results})
+            this.setState({myReading:results})
       })
     }
 
+    emptySerach=()=>{
+        this.setState({mySearch:[]})
+    }
+
     searchBooks = (query)=>{
-      BooksAPI.search(query).then((results)=>{
-          this.setState((state)=>({
-              books:state.books.filter((c)=>c.id!==results.id)
-          }))
-      })
+        if(query){
+            BooksAPI.search(query).then((results)=>{
+                if(Array.isArray(results)){
+                    this.setState({mySearch:results})
+                }else{
+                    this.emptySerach()
+                }
+
+            })
+        }else{
+            this.emptySerach()
+        }
+
     }
 
     componentDidMount(){
@@ -33,19 +47,27 @@ class App extends Component {
   render() {
     return (
         <div className="app">
-          {/*<Route exact path ="/" render = {()=>(
-              <SearchBook/>
-          )}/>
-          <Route path ="/search" render={()=>(
-              <SearchBook
-              />
-          )}/>*/}
-          <SearchBook
-              onSearchBook = {(query)=>{
-                  this.searchBooks(query)
-              }}
-              books ={this.state.books}
-          />
+            {/*<Route exact path ="/" render = {()=>(
+                <ListBookShelf
+                    books ={this.state.myReading}
+                />
+            )}/>
+            <Route path ="/search" render={({history})=>(
+                <SearchBook
+                    onSearchBook = {(query)=>{
+                        this.searchBooks(query)
+                    }}
+                    books ={this.state.mySearch}
+                />
+            )}/>*/}
+            <Route path="/search" exact render={() => (
+                <SearchBook onSearchBook = {(query)=>{
+                    this.searchBooks(query)
+                }} books ={this.state.mySearch} />
+            )} />
+            <Route path="/" exact render={() => (
+                <ListBookShelf books ={this.state.myReading} />
+            )} />
         </div>
 
     );

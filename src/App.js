@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
-import SearchBook from "./SearchBook"
+import SearchBook from "./components/SearchBook"
 import * as BooksAPI from "./BooksAPI"
 import {Route} from 'react-router-dom'
 

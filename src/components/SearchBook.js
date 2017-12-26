@@ -8,6 +8,7 @@ import React, { Component  } from 'react'
 import escapeRedExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
 import Book from "./Book";
+import {Link} from 'react-router-dom'
 
 class SearchBook extends React.Component{
 
@@ -36,7 +37,7 @@ class SearchBook extends React.Component{
         return(
             <div className="search-books">
                 <div className="search-books-bar">
-                    <a className="close-search" onClick={() => {}}>Close</a>
+                    <Link className="close-search" to="/"> close</Link>
                     <div className="search-books-input-wrapper">
                         {/*
                       NOTES: The search from BooksAPI is limited to a particular set of search terms.

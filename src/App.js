@@ -32,12 +32,10 @@ class App extends Component {
                 }else{
                     this.emptySerach()
                 }
-
             })
         }else{
             this.emptySerach()
         }
-
     }
 
     componentDidMount(){
@@ -47,19 +45,6 @@ class App extends Component {
   render() {
     return (
         <div className="app">
-            {/*<Route exact path ="/" render = {()=>(
-                <ListBookShelf
-                    books ={this.state.myReading}
-                />
-            )}/>
-            <Route path ="/search" render={({history})=>(
-                <SearchBook
-                    onSearchBook = {(query)=>{
-                        this.searchBooks(query)
-                    }}
-                    books ={this.state.mySearch}
-                />
-            )}/>*/}
             <Route path="/search" exact render={() => (
                 <SearchBook onSearchBook = {(query)=>{
                     this.searchBooks(query)
@@ -69,7 +54,6 @@ class App extends Component {
                 <ListBookShelf books ={this.state.myReading} />
             )} />
         </div>
-
     );
   }
 }

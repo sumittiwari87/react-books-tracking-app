@@ -6,17 +6,18 @@
 
 import React, { Component  } from 'react'
 
+
 class Book extends React.Component {
 
     render() {
 
-        const {books} = this.props
+        const {books,onUpdateShelf} = this.props
         return (
             <div className="bookshelf">
                 <h2 className="bookshelf-title">{this.props.shelf}</h2>
                 <div className="bookshelf-books">
                     <ol className="books-grid">
-                        {books.map((book) => (
+                        {books && books.map((book) => (
                             <li key={book.id}>
                                 <div className="book">
                                     <div className="book-top">
@@ -27,7 +28,7 @@ class Book extends React.Component {
                                         }}>
                                         </div>
                                         <div className="book-shelf-changer">
-                                            <select>
+                                            <select value = {book.shelf} onChange= {(event)=> onUpdateShelf(book,event.target.value.trim())}>
                                                 <option value="none" disabled>Move to...</option>
                                                 <option value="currentlyReading">Currently Reading</option>
                                                 <option value="wantToRead">Want to Read</option>

@@ -9,6 +9,7 @@ import escapeRedExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
 import Book from "./Book";
 import {Link} from 'react-router-dom'
+import DebounceInput from 'react-debounce-input'
 
 class SearchBook extends React.Component{
 
@@ -18,7 +19,7 @@ class SearchBook extends React.Component{
 
     render(){
 
-        const {books, onSearchBook} = this.props
+        const {books, onSearchBook,onUpdateShelf} = this.props
         const {query} = this.state
 
         let showingBooks = []
@@ -47,17 +48,26 @@ class SearchBook extends React.Component{
                       However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                       you don't find a specific author or title. Every search is limited by search terms.
                     */}
-                        <input placeholder="Search by title or author"
+                        {/*<input placeholder="Search by title or author"
                                type="text"
-                               onChange={(event)=> onSearchBook(event.target.value.trim())}
+                               onChange=
+                        />*/}
+                        <DebounceInput
+                            debounceTimeout={325}
+                            element="input"
+                            type="text"
+                            onChange={(event)=> onSearchBook(event.target.value.trim())}
+                            placeholder="Search by title or author"
                         />
-
                     </div>
                 </div>
                 <Book
-                    books={showingBooks}
-                    shelf = 'Search Results'
+                books={showingBooks}
+                onUpdateShelf = {onUpdateShelf}
+                shelf = 'Search Results'
                 />
+
+
             </div>
         )}
 }

@@ -12,7 +12,7 @@ import {Link} from 'react-router-dom'
 class ListBookShelf extends React.Component {
 
     render() {
-        const {books} = this.props
+        const {books,onUpdateShelf} = this.props
         return (
             <div>
                 <div className="list-books">
@@ -21,9 +21,9 @@ class ListBookShelf extends React.Component {
                     </div>
                     <div className="list-books-content">
                         <div>
-                            <Book books={books.filter((book)=>{return book.shelf==='currentlyReading'})} shelf = 'Currently Reading' />
-                            <Book books={books.filter((book)=>{return book.shelf==='wantToRead'})} shelf = 'Want to read' />
-                            <Book books={books.filter((book)=>{return book.shelf==='read'})} shelf = 'Reading' />
+                            <Book books={books.filter((book)=>{return book.shelf==='currentlyReading'})} shelf = 'Currently Reading' onUpdateShelf = {onUpdateShelf}/>
+                            <Book books={books.filter((book)=>{return book.shelf==='wantToRead'})} shelf = 'Want to read' onUpdateShelf = {onUpdateShelf}/>
+                            <Book books={books.filter((book)=>{return book.shelf==='read'})} shelf = 'Reading' onUpdateShelf = {onUpdateShelf}/>
                         </div>
                     </div>
                 </div>

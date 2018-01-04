@@ -9,7 +9,7 @@ import Shelf from "./Shelf";
 import {Link} from 'react-router-dom'
 
 
-class ListBookShelf extends React.Component {
+class Home extends React.Component {
     emptySearch =()=>{
         this.props.emptySearch
     }
@@ -43,4 +43,4 @@ class ListBookShelf extends React.Component {
 
 
 
-export default ListBookShelf
+export default Home

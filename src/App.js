@@ -4,7 +4,7 @@ import './App.css'
 import SearchBook from "./components/SearchBook"
 import * as BooksAPI from "./BooksAPI"
 import {Switch,Route} from 'react-router-dom'
-import ListBookShelf from "./components/ListBookShelf";
+import Home from "./components/Home";
 import NoMatch from "./components/NoMatch";
 
 class App extends Component {
@@ -117,7 +117,7 @@ class App extends Component {
                         />
                     )}/>
                     <Route path="/" exact render={() => (
-                        <ListBookShelf books={this.state.myReading}
+                        <Home books={this.state.myReading}
                                        updateShelf={(book, shelf) => {
                                            this.updateShelf(book, shelf)
                                        }}

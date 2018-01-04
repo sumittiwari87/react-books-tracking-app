@@ -5,14 +5,14 @@
  * */
 
 import React, { Component  } from 'react'
-import Book from "./Book";
+import Shelf from "./Shelf";
 import {Link} from 'react-router-dom'
 
 
 class ListBookShelf extends React.Component {
 
     render() {
-        const {books,onUpdateShelf} = this.props
+        const {books,updateShelf} = this.props
         return (
             <div>
                 <div className="list-books">
@@ -21,9 +21,9 @@ class ListBookShelf extends React.Component {
                     </div>
                     <div className="list-books-content">
                         <div>
-                            <Book books={books.filter((book)=>{return book.shelf==='currentlyReading'})} shelf = 'Currently Reading' onUpdateShelf = {onUpdateShelf}/>
-                            <Book books={books.filter((book)=>{return book.shelf==='wantToRead'})} shelf = 'Want to read' onUpdateShelf = {onUpdateShelf}/>
-                            <Book books={books.filter((book)=>{return book.shelf==='read'})} shelf = 'Reading' onUpdateShelf = {onUpdateShelf}/>
+                            <Shelf books={books.filter((book)=>{return book.shelf==='currentlyReading'})} shelf = 'Currently Reading' updateShelf = {updateShelf}/>
+                            <Shelf books={books.filter((book)=>{return book.shelf==='wantToRead'})} shelf = 'Want to read' updateShelf = {updateShelf}/>
+                            <Shelf books={books.filter((book)=>{return book.shelf==='read'})} shelf = 'Reading' updateShelf = {updateShelf}/>
                         </div>
                     </div>
                 </div>

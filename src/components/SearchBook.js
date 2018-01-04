@@ -7,7 +7,7 @@
 import React, { Component  } from 'react'
 import escapeRedExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
-import Book from "./Book";
+import Shelf from "./Shelf";
 import {Link} from 'react-router-dom'
 import DebounceInput from 'react-debounce-input'
 
@@ -19,7 +19,7 @@ class SearchBook extends React.Component{
 
     render(){
 
-        const {books, onSearchBook,onUpdateShelf} = this.props
+        const {books, onSearchBook,updateShelf} = this.props
         const {query} = this.state
 
         let showingBooks = []
@@ -61,9 +61,9 @@ class SearchBook extends React.Component{
                         />
                     </div>
                 </div>
-                <Book
+                <Shelf
                 books={showingBooks}
-                onUpdateShelf = {onUpdateShelf}
+                updateShelf = {updateShelf}
                 shelf = 'Search Results'
                 />
 

@@ -88,13 +88,13 @@ class App extends Component {
                     this.searchBooks(query)
                 }}
                 books ={this.state.mySearch}
-                onUpdateShelf = {(book,shelf)=>{
+                    updateShelf = {(book,shelf)=>{
                     this.updateShelf(book,shelf)
                 }}/>
             )} />
             <Route path="/" exact render={() => (
                 <ListBookShelf books ={this.state.myReading}
-                               onUpdateShelf = {(book,shelf)=>{
+                               updateShelf = {(book,shelf)=>{
                                    this.updateShelf(book,shelf)
                                }}
                 />

@@ -7,6 +7,7 @@ Below you will find some information on how to perform common tasks.<br>
 - [What is a Book Trackin App](#about-app)
   - [App Functionality](#app-functionality)
 - [Available Scripts](#available-scripts)
+  - [npm install](#npm-install)
   - [npm start](#npm-start)
 
 ## What is a Book Trackin App
@@ -38,10 +39,19 @@ When you navigate back to the main page from the search page, you should instant
 ## Available Scripts
 
 In the project directory, you can run:
+### `npm install`
 
+Open the terminal and go to the project root directory `cd project-root-directory`
+
+Then run the command `npm install`<br>
+ 
+It will install all the `dependencies` required to run the application. Before running the app, do not forget to install the `dependencies`.
+ 
 ### `npm start`
 
-Runs the app in the development mode.<br>
+After installing the dependencies, run the command `npm start`
+
+It will run the app in the development mode<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>

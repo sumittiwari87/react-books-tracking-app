@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import logo from './logo.svg'
 import './App.css'
 import SearchBook from "./components/SearchBook"
@@ -10,41 +10,66 @@ import ListBookShelf from "./components/ListBookShelf";
 class App extends Component {
 
     state = {
-        myReading :[],
-        mySearch:[]
+        myReading: [],
+        mySearch: []
     }
 
-    getAllBooks =()=>{
-      BooksAPI.getAll().then((results)=>{
-            this.setState({myReading:results})
-      })
+    getAllBooks = () => {
+        BooksAPI.getAll().then((results) => {
+            this.setState({myReading: results})
+        })
     }
 
-    emptySerach=()=>{
-        this.setState({mySearch:[]})
+    emptySearch = () => {
+        this.setState({mySearch: []})
     }
 
-    searchBooks = (query)=>{
-        if(query){
-            BooksAPI.search(query).then((results)=>{
-                if(Array.isArray(results)){
-                    this.setState({mySearch:results})
-                }else{
-                    this.emptySerach()
+    validateShelf = (results) => {
+        const {myReading, mySearch} = this.state;
+        const myReadsIds = myReading.map(b => b.id)
+        let updatedSearch = []
+        updatedSearch = results.map(result => {
+            let search = result
+            if (myReadsIds.includes(result.id)) {
+
+                //update the shelf
+                /*result.shelf = myReading.filter(obj=> {
+                    return obj.id == result.id;
+                })[0].shelf*/
+                search.shelf = myReading.filter(obj=> {
+                    return obj.id == result.id;
+                })[0].shelf
+            }
+            return search
+        })
+
+        return updatedSearch
+    }
+
+    searchBooks = (query) => {
+
+        if (query) {
+            BooksAPI.search(query).then((results) => {
+                let searchedBooks = []
+                if (Array.isArray(results)) {
+                    searchedBooks = results.length > 0 ? this.validateShelf(results) : results
+                    this.setState({mySearch: searchedBooks})
+                } else {
+                    this.emptySearch()
                 }
             })
-        }else{
-            this.emptySerach()
+        } else {
+            this.emptySearch()
         }
     }
 
-    updateShelf = (book,shelf)=>{
-        console.log("Book is "+book.shelf+" and shelf is "+shelf)
+    updateShelf = (book, shelf) => {
+        console.log("Book is " + book.shelf + " and shelf is " + shelf)
         if (shelf === 'none') {
             this.setState(prevState => ({
                 myReading: prevState.myReading.filter(b => b.id !== book.id),
             }))
-        }else if(book.shelf!==shelf){
+        } else if (book.shelf !== shelf) {
             //call the service to update the shelf
             BooksAPI.update(book, shelf).then(() => {
                 const {myReading, mySearch} = this.state;
@@ -56,52 +81,53 @@ class App extends Component {
                 */
                 let myReadingNew = []
                 let mySeacrhNew = []
-                if(myReadsIds.includes(book.id)){
+                if (myReadsIds.includes(book.id)) {
                     myReadingNew = myReading.map(bookStored => {
                         if (book.id === bookStored.id) {
                             bookStored.shelf = shelf
                         }
                         return bookStored
                     })
-                    this.setState({myReading:myReadingNew});
-                }else{
+                    this.setState({myReading: myReadingNew});
+                } else {
                     book.shelf = shelf
                     myReadingNew = [...myReading, book]
-                    mySeacrhNew = mySearch.filter(b=> {
+                    mySeacrhNew = mySearch.filter(b => {
                         return b.id != book.id
                     });
-                    this.setState({myReading: this.state.myReading.concat(book),mySearch:mySeacrhNew});
+                    this.setState({myReading: this.state.myReading.concat(book), mySearch: mySeacrhNew});
                 }
             })
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getAllBooks()
     }
 
-  render() {
-    return (
-        <div className="app">
-            <Route path="/search" exact render={() => (
-                <SearchBook onSearchBook = {(query)=>{
-                    this.searchBooks(query)
-                }}
-                books ={this.state.mySearch}
-                    updateShelf = {(book,shelf)=>{
-                    this.updateShelf(book,shelf)
-                }}/>
-            )} />
-            <Route path="/" exact render={() => (
-                <ListBookShelf books ={this.state.myReading}
-                               updateShelf = {(book,shelf)=>{
-                                   this.updateShelf(book,shelf)
-                               }}
-                />
-            )} />
-        </div>
-    );
-  }
+    render() {
+        return (
+            <div className="app">
+                <Route path="/search" exact render={() => (
+                    <SearchBook onSearchBook={(query) => {
+                        this.searchBooks(query)
+                    }}
+                                books={this.state.mySearch}
+                                updateShelf={(book, shelf) => {
+                                    this.updateShelf(book, shelf)
+                                }}/>
+                )}/>
+                <Route path="/" exact render={() => (
+                    <ListBookShelf books={this.state.myReading}
+                                   updateShelf={(book, shelf) => {
+                                       this.updateShelf(book, shelf)
+                                   }}
+                                   emptySearch = {this.emptySearch}
+                    />
+                )}/>
+            </div>
+        );
+    }
 }
 
 export default App;

@@ -17,18 +17,22 @@ class SearchBook extends React.Component{
         query:''
     }
 
+    onSearchBook =(query)=>{
+        this.setState({query:query.trim()})
+        this.props.onSearchBook(query)
+    }
     render(){
 
-        const {books, onSearchBook,updateShelf} = this.props
+        const {books,updateShelf,emptySearch} = this.props
         const {query} = this.state
 
         let showingBooks = []
 
         if(query){
-            const match = new RegExp(escapeRedExp(this.state.query),'i')
-            showingBooks = books.filter((book)=>match.test(book.name))
-        }else{
             showingBooks =  books
+        }else{
+            showingBooks =  []
+            emptySearch
         }
 
         if(showingBooks.length){
@@ -56,7 +60,8 @@ class SearchBook extends React.Component{
                             debounceTimeout={325}
                             element="input"
                             type="text"
-                            onChange={(event)=> onSearchBook(event.target.value.trim())}
+                            value={this.state.query}
+                            onChange={(event)=> this.onSearchBook(event.target.value.trim())}
                             placeholder="Search by title or author"
                         />
                     </div>

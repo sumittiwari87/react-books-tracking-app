@@ -3,9 +3,9 @@ import logo from './logo.svg'
 import './App.css'
 import SearchBook from "./components/SearchBook"
 import * as BooksAPI from "./BooksAPI"
-import {Route} from 'react-router-dom'
+import {Switch,Route} from 'react-router-dom'
 import ListBookShelf from "./components/ListBookShelf";
-
+import NoMatch from "./components/NoMatch";
 
 class App extends Component {
 
@@ -64,7 +64,6 @@ class App extends Component {
     }
 
     updateShelf = (book, shelf) => {
-        console.log("Book is " + book.shelf + " and shelf is " + shelf)
         if (shelf === 'none') {
             this.setState(prevState => ({
                 myReading: prevState.myReading.filter(b => b.id !== book.id),
@@ -92,10 +91,7 @@ class App extends Component {
                 } else {
                     book.shelf = shelf
                     myReadingNew = [...myReading, book]
-                    mySeacrhNew = mySearch.filter(b => {
-                        return b.id != book.id
-                    });
-                    this.setState({myReading: this.state.myReading.concat(book), mySearch: mySeacrhNew});
+                    this.setState({myReading: myReadingNew});
                 }
             })
         }
@@ -108,23 +104,29 @@ class App extends Component {
     render() {
         return (
             <div className="app">
-                <Route path="/search" exact render={() => (
-                    <SearchBook onSearchBook={(query) => {
-                        this.searchBooks(query)
-                    }}
-                                books={this.state.mySearch}
-                                updateShelf={(book, shelf) => {
-                                    this.updateShelf(book, shelf)
-                                }}/>
-                )}/>
-                <Route path="/" exact render={() => (
-                    <ListBookShelf books={this.state.myReading}
-                                   updateShelf={(book, shelf) => {
-                                       this.updateShelf(book, shelf)
-                                   }}
-                                   emptySearch = {this.emptySearch}
-                    />
-                )}/>
+                <Switch>
+                    <Route path="/search" exact render={() => (
+                        <SearchBook onSearchBook={(query) => {
+                            this.searchBooks(query)
+                        }}
+                                    books={this.state.mySearch}
+                                    updateShelf={(book, shelf) => {
+                                        this.updateShelf(book, shelf)
+                                    }}
+                                    emptySearch = {this.emptySearch}
+                        />
+                    )}/>
+                    <Route path="/" exact render={() => (
+                        <ListBookShelf books={this.state.myReading}
+                                       updateShelf={(book, shelf) => {
+                                           this.updateShelf(book, shelf)
+                                       }}
+                                       emptySearch = {this.emptySearch}
+
+                        />
+                    )}/>
+                    <Route component={NoMatch}/>
+                </Switch>
             </div>
         );
     }

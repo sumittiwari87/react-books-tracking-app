@@ -10,9 +10,12 @@ import {Link} from 'react-router-dom'
 
 
 class ListBookShelf extends React.Component {
-
+    emptySearch =()=>{
+        this.props.emptySearch
+    }
     render() {
-        const {books,updateShelf} = this.props
+        const {books,updateShelf,emptySearch} = this.props
+        this.emptySearch()
         return (
             <div>
                 <div className="list-books">

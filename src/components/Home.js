@@ -4,18 +4,14 @@
  * @ It is a react component to show all the book shelf (Currently Reading, want to read, read and none)
  * */
 
-import React, { Component  } from 'react'
+import React from 'react'
 import Shelf from "./Shelf";
 import {Link} from 'react-router-dom'
 
 
 class Home extends React.Component {
-    emptySearch =()=>{
-        this.props.emptySearch
-    }
     render() {
-        const {books,updateShelf,emptySearch} = this.props
-        this.emptySearch()
+        const {books, updateShelf} = this.props
         return (
             <div>
                 <div className="list-books">
@@ -24,9 +20,15 @@ class Home extends React.Component {
                     </div>
                     <div className="list-books-content">
                         <div>
-                            <Shelf books={books.filter((book)=>{return book.shelf==='currentlyReading'})} shelf = 'Currently Reading' updateShelf = {updateShelf}/>
-                            <Shelf books={books.filter((book)=>{return book.shelf==='wantToRead'})} shelf = 'Want to read' updateShelf = {updateShelf}/>
-                            <Shelf books={books.filter((book)=>{return book.shelf==='read'})} shelf = 'Reading' updateShelf = {updateShelf}/>
+                            <Shelf books={books.filter((book) => {
+                                return book.shelf === 'currentlyReading'
+                            })} shelf='Currently Reading' updateShelf={updateShelf}/>
+                            <Shelf books={books.filter((book) => {
+                                return book.shelf === 'wantToRead'
+                            })} shelf='Want to read' updateShelf={updateShelf}/>
+                            <Shelf books={books.filter((book) => {
+                                return book.shelf === 'read'
+                            })} shelf='Reading' updateShelf={updateShelf}/>
                         </div>
                     </div>
                 </div>
@@ -40,7 +42,6 @@ class Home extends React.Component {
         )
     }
 }
-
 
 
 export default Home

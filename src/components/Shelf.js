@@ -4,7 +4,7 @@
  * @ It is a react component for the book and its state
  * */
 
-import React, { Component  } from 'react'
+import React from 'react'
 import Book from "./Book";
 
 

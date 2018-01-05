@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
-import logo from './logo.svg'
 import './App.css'
 import SearchBook from "./components/SearchBook"
 import * as BooksAPI from "./BooksAPI"
-import {Switch,Route} from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 import Home from "./components/Home";
 import NoMatch from "./components/NoMatch";
 
@@ -25,7 +24,7 @@ class App extends Component {
     }
 
     validateShelf = (results) => {
-        const {myReading, mySearch} = this.state;
+        const {myReading} = this.state;
         const myReadsIds = myReading.map(b => b.id)
         let updatedSearch = []
         updatedSearch = results.map(result => {
@@ -36,8 +35,8 @@ class App extends Component {
                 /*result.shelf = myReading.filter(obj=> {
                     return obj.id == result.id;
                 })[0].shelf*/
-                search.shelf = myReading.filter(obj=> {
-                    return obj.id == result.id;
+                search.shelf = myReading.filter(obj => {
+                    return obj.id === result.id;
                 })[0].shelf
             }
             return search
@@ -47,7 +46,7 @@ class App extends Component {
     }
 
     searchBooks = (query) => {
-
+        this.emptySearch()
         if (query) {
             BooksAPI.search(query).then((results) => {
                 let searchedBooks = []
@@ -65,21 +64,21 @@ class App extends Component {
 
     updateShelf = (book, shelf) => {
         if (shelf === 'none') {
-            this.setState(prevState => ({
-                myReading: prevState.myReading.filter(b => b.id !== book.id),
-            }))
+            BooksAPI.update(book, shelf).then(() => {
+                this.setState(prevState => ({
+                    myReading: prevState.myReading.filter(b => b.id !== book.id),
+                }))
+            })
         } else if (book.shelf !== shelf) {
             //call the service to update the shelf
             BooksAPI.update(book, shelf).then(() => {
-                const {myReading, mySearch} = this.state;
+                const {myReading} = this.state;
                 const myReadsIds = myReading.map(b => b.id)
-                const searchedBooksIds = mySearch.map(b => b.id)
                 /* The main important thing to care
                 ** 1. If the book is on the shelf, reshelf the book i.e re postion the book
                 ** 2. if the book is not on the shelf and you are adding after searching it, then you need to add this book into the myRead state
                 */
                 let myReadingNew = []
-                let mySeacrhNew = []
                 if (myReadsIds.includes(book.id)) {
                     myReadingNew = myReading.map(bookStored => {
                         if (book.id === bookStored.id) {
@@ -113,15 +112,15 @@ class App extends Component {
                                     updateShelf={(book, shelf) => {
                                         this.updateShelf(book, shelf)
                                     }}
-                                    emptySearch = {this.emptySearch}
+                                    emptySearch={this.emptySearch}
                         />
                     )}/>
                     <Route path="/" exact render={() => (
                         <Home books={this.state.myReading}
-                                       updateShelf={(book, shelf) => {
-                                           this.updateShelf(book, shelf)
-                                       }}
-                                       emptySearch = {this.emptySearch}
+                              updateShelf={(book, shelf) => {
+                                  this.updateShelf(book, shelf)
+                              }}
+                              emptySearch={this.emptySearch}
 
                         />
                     )}/>
